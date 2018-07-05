@@ -4,11 +4,9 @@ import (
 	"github.com/HankWang95/words-gin/app/server"
 )
 
-func main()  {
+func main() {
 	server.RUN()
 }
-
-
 
 //var db = app.NewDBLink()
 //
@@ -104,11 +102,11 @@ func main()  {
 //
 //	c.JSON(200, f.CleanedData)
 
-	//c.Request.ParseForm()
-	//
-	//var hh = c.Request.Form.Get("xxx")
-	//
-	//c.JSON(200, gin.H{
-	//	"message": hh,
-	//})
+//c.Request.ParseForm()
+//
+//var hh = c.Request.Form.Get("xxx")
+//
+//c.JSON(200, gin.H{
+//	"message": hh,
+//})
 //}

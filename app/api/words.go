@@ -1,28 +1,27 @@
 package api
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/HankWang95/words-gin/app/service"
-	"github.com/smartwalle/conv4go"
-	"github.com/HankWang95/words-gin/app/manager"
 	"fmt"
+	"github.com/HankWang95/words-gin/app/manager"
+	"github.com/HankWang95/words-gin/app/service"
+	"github.com/gin-gonic/gin"
+	"github.com/smartwalle/conv4go"
 )
 
 type WordsHandler struct {
-
 }
 
 func NewWordsHandler() *WordsHandler {
 	return &WordsHandler{}
 }
 
-func (this *WordsHandler) RUN(r gin.IRouter)  {
+func (this *WordsHandler) RUN(r gin.IRouter) {
 	r.GET("/search", this.SearchWord4Uid)
 	r.GET("/add", this.AddWord)
 	r.GET("/words-list", this.SearchWordsList)
 }
 
-func (this *WordsHandler) SearchWord4Uid(c *gin.Context)  {
+func (this *WordsHandler) SearchWord4Uid(c *gin.Context) {
 	c.Request.ParseForm()
 	//var f = &form.WordForm{}
 	//f.Word = c.Request.Form.Get("word")
@@ -31,22 +30,22 @@ func (this *WordsHandler) SearchWord4Uid(c *gin.Context)  {
 	fmt.Println(uid)
 	result, status := service.SearchWords4Uid(uid)
 	if status == manager.SEARCH_WORD_FAIL {
-		c.JSON(404,result)
+		c.JSON(404, result)
 		return
 	}
 
-	c.JSON(200,result)
+	c.JSON(200, result)
 	return
 }
 
-func (this *WordsHandler) SearchWordsList(c *gin.Context)  {
+func (this *WordsHandler) SearchWordsList(c *gin.Context) {
 	result := service.SearchWordsList()
 
 	c.JSON(200, result)
 	return
 }
 
-func (this *WordsHandler) AddWord(c *gin.Context)  {
+func (this *WordsHandler) AddWord(c *gin.Context) {
 
 	c.Request.ParseForm()
 
@@ -54,14 +53,12 @@ func (this *WordsHandler) AddWord(c *gin.Context)  {
 	var Translation = c.Request.Form.Get("translation")
 	result := service.AddWord(Word, Translation)
 
-	if result == manager.ADD_WORD_SUCCESS{
+	if result == manager.ADD_WORD_SUCCESS {
 		c.JSON(200, "添加单词成功")
 		return
-	}else{
+	} else {
 		c.JSON(404, "单词已经存在")
 		return
 	}
-
-
 
 }

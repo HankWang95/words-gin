@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/HankWang95/words-gin/app/manager"
 	"github.com/HankWang95/words-gin/app/form"
+	"github.com/HankWang95/words-gin/app/manager"
 )
 
 func SearchWords4Uid(uid int64) (result *form.WordForm, status int) {
@@ -15,7 +15,7 @@ func AddWord(Word, Translation string) int {
 	return status
 }
 
-func SearchWordsList() (result *[]*form.WordForm) {
+func SearchWordsList() (result *[]form.WordForm) {
 	result = manager.SearchWordsList()
 	return
 }
