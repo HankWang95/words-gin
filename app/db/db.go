@@ -1,4 +1,4 @@
-package app
+package db
 
 import (
 	_"github.com/Go-SQL-Driver/MySQL"
@@ -6,24 +6,24 @@ import (
 	"fmt"
 )
 
-var db  sql.DB
+var db = NewDBLink()
 
 
 
 // use raw SQL
-func NewDBLink() error{
+func NewDBLink() *sql.DB{
 	var err error
-	&db, err = sql.Open("mysql", "gin:1234@tcp(127.0.0.1:3306)/words?charset=utf8")
+	db, err := sql.Open("mysql", "gin:1234@tcp(127.0.0.1:3306)/words?charset=utf8")
 	if err != nil{
 		fmt.Println("链接数据库失败")
-		return err
+
 	}
-	return nil
+	return db
 }
 
 
 func GetDBSession() *sql.DB {
-	return &db
+	return db
 }
 
 
