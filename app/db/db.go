@@ -1,16 +1,18 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 	_ "github.com/Go-SQL-Driver/MySQL"
+	"github.com/smartwalle/dbs"
+	"database/sql"
 )
 
 var db = NewDBLink()
 
 // use raw SQL
-func NewDBLink() *sql.DB {
-	db, err := sql.Open("mysql", "gin:1234@tcp(127.0.0.1:3306)/words?charset=utf8")
+func NewDBLink() dbs.DB {
+	//db, err := sql.Open("mysql", "gin:1234@tcp(127.0.0.1:3306)/words?charset=utf8&parseTime=true")
+	db, err := sql.Open("mysql", "root:yangfeng@tcp(192.168.1.111:3306)/v3?charset=utf8&parseTime=true")
 	if err != nil {
 		fmt.Println("链接数据库失败")
 
@@ -19,7 +21,7 @@ func NewDBLink() *sql.DB {
 	return db
 }
 
-func GetDBSession() *sql.DB {
+func GetDBSession() dbs.DB {
 	return db
 }
 

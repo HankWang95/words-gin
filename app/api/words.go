@@ -6,6 +6,7 @@ import (
 	"github.com/HankWang95/words-gin/app/service"
 	"github.com/gin-gonic/gin"
 	"github.com/smartwalle/conv4go"
+	"github.com/HankWang95/words-gin/app/form"
 )
 
 type WordsHandler struct {
@@ -40,8 +41,12 @@ func (this *WordsHandler) SearchWord4Uid(c *gin.Context) {
 
 func (this *WordsHandler) SearchWordsList(c *gin.Context) {
 	result := service.SearchWordsList()
+	var wordList []*form.WordForm
+	wordList = result
 
-	c.JSON(200, result)
+	//fmt.Println(wordList)
+
+	c.JSON(200, wordList)
 	return
 }
 
