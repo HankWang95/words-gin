@@ -10,12 +10,28 @@ func SearchWords4Uid(uid int64) (result *form.WordForm, status int) {
 	return
 }
 
+func SearchWord4Word(word string) (result *form.WordForm, status int){
+	result, status = manager.SearchWord4Word(word)
+	return
+}
+
+
+
 func AddWord(Word, Translation string) int {
 	status := manager.AddWord(Word, Translation)
 	return status
 }
 
-func SearchWordsList() (result []*form.WordForm) {
-	result, _ = manager.SearchWordsList()
+func AllWordsList() (result []*form.WordForm) {
+	result, _ = manager.AllWordsList()
 	return
 }
+
+
+func CreateWordsList() (result []*form.WordForm) {
+	result, _ = manager.CreateWordsList()
+	return
+}
+
+
+

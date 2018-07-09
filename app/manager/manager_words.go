@@ -122,7 +122,42 @@ func SearchWord4Uid(uid int64) (*form.WordForm, int) {
 	return WordForm, SEARCH_WORD_SUCCESS
 }
 
-func SearchWordsList() ([]*form.WordForm, error) {
+func SearchWord4Word(word string) (*form.WordForm, int) {
+	var db = db.GetDBSession()
+	var WordForm *form.WordForm
+
+	sb := dbs.NewSelectBuilder()
+	sb.Selects("w.word", "w.translation")
+	sb.Selects("d.added_date", "d.last_study_date")
+	sb.From("words", " AS w")
+	sb.LeftJoin("date"," AS d ON w.uid = d.word_id")
+	sb.Where("w.word = ? ", word)
+	fmt.Println(sb.ToSQL())
+
+	err := sb.Scan(db, &WordForm)
+
+
+	if err != nil{
+		fmt.Println(err)
+		return nil, SEARCH_WORD_FAIL
+	}
+
+	if WordForm == nil {
+		return nil, SEARCH_WORD_FAIL
+	}
+
+
+	return WordForm, SEARCH_WORD_SUCCESS
+
+
+
+
+
+
+}
+
+
+func AllWordsList() ([]*form.WordForm, error) {
 
 	var db = db.GetDBSession()
 	var WordList []*form.WordForm
@@ -174,4 +209,27 @@ func SearchWordsList() ([]*form.WordForm, error) {
 	//}
 	//return &WordsList
 
+}
+
+
+func CreateWordsList() ([]*form.WordForm, error) {
+
+	var db= db.GetDBSession()
+	var WordList []*form.WordForm
+	//var Word model.Words
+
+	sb := dbs.NewSelectBuilder()
+	sb.Selects("w.word", "w.translation")
+	sb.From("words", " AS w")
+	sb.LeftJoin("date", " AS d ON w.uid = d.word_id")
+	sb.Where("TO_DAYS(NOW()) - TO_DAYS(added_date) >= ?",1)
+
+	fmt.Println(sb.ToSQL())
+	err := sb.Scan(db, &WordList)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return WordList, nil
 }
