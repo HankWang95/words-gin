@@ -224,6 +224,7 @@ func CreateWordsList() ([]*form.WordForm, error) {
 	sb.LeftJoin("date", " AS d ON w.uid = d.word_id")
 	sb.Where("TO_DAYS(NOW()) - TO_DAYS(added_date) >= ?",1)
 
+
 	fmt.Println(sb.ToSQL())
 	err := sb.Scan(db, &WordList)
 	if err != nil {
@@ -232,4 +233,21 @@ func CreateWordsList() ([]*form.WordForm, error) {
 	}
 
 	return WordList, nil
+}
+
+func SetRedisWord(word string) error {
+	rSess := db.GetRedisSession()
+	defer rSess.Close()
+	res := rSess.SET(word,"True","EX",1000)
+	if res.Error != nil {
+		return res.Error
+	}
+	if res.MustString() == "OK" {
+		fmt.Println(res.Data)
+		return nil
+	}
+	return nil
+
+
+
 }

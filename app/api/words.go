@@ -18,9 +18,10 @@ func NewWordsHandler() *WordsHandler {
 
 func (this *WordsHandler) RUN(r gin.IRouter) {
 	r.GET("/search", this.SearchWord)
-	r.GET("/add", this.AddWord)
+	r.POST("/add", this.AddWord)
 	r.GET("/all-words-list", this.AllWordsList)
 	r.GET("/words-list", this.CreateWordsList)
+	r.GET("/redis-test", this.SetRedisWord)
 	//r.GET("/", this.SearchWordsList)
 
 }
@@ -79,6 +80,15 @@ func (this *WordsHandler) AddWord(c *gin.Context) {
 
 	var Word = c.Request.Form.Get("word")
 	var Translation = c.Request.Form.Get("translation")
+	//data,err := ioutil.ReadAll(c.Request.Body)
+	//if err != nil{
+	//	return
+	//}
+	//var m *form.WordForm
+	//err = json.Unmarshal(data,&m)
+	//if err != nil{
+	//	fmt.Println(err)
+	//}
 	result := service.AddWord(Word, Translation)
 
 	if result == manager.ADD_WORD_SUCCESS {
@@ -88,5 +98,24 @@ func (this *WordsHandler) AddWord(c *gin.Context) {
 		c.JSON(404, "单词已经存在")
 		return
 	}
+
+
+
+
+
+}
+
+func (this *WordsHandler) SetRedisWord(c *gin.Context)  {
+	c.Request.ParseForm()
+
+	word := c.Request.Form.Get("word")
+
+	err := service.SetRedisWord(word)
+	if err != nil {
+		c.JSON(404, "错误")
+		return
+	}
+	c.JSON(200, "set redis word ok!")
+
 
 }

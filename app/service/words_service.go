@@ -33,5 +33,8 @@ func CreateWordsList() (result []*form.WordForm) {
 	return
 }
 
+func SetRedisWord(word string ) error {
+	return manager.SetRedisWord(word)
+}
 
 
