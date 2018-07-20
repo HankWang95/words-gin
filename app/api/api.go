@@ -5,5 +5,4 @@ import "github.com/gin-gonic/gin"
 func RUN(r gin.IRouter) {
 	r = r.Group("/api")
 	NewWordsHandler().RUN(r)
-	NewHotelHandler().RUN(r)
 }

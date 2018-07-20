@@ -124,6 +124,8 @@ func CreateWordsList() ([]*form.WordForm, error) {
 	return WordList, nil
 }
 
+
+// TODO: 加入到各个manager里
 func SetRedisWord(word string) error {
 	rSess := db.GetRedisSession()
 	defer rSess.Close()
