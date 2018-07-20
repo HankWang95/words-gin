@@ -34,7 +34,7 @@ func (this *WordsHandler) SearchWord(c *gin.Context) {
 	if uid != "" {
 		uid := conv4go.Int64(uid)
 		result, status := service.SearchWords4Uid(uid)
-		if status == manager.SEARCH_WORD_FAIL {
+		if status == manager.WORD_IS_NOT_EXIST {
 			c.JSON(404, result)
 			return
 		}
@@ -42,7 +42,7 @@ func (this *WordsHandler) SearchWord(c *gin.Context) {
 		return
 	}else if word != "" {
 		result, status := service.SearchWord4Word(word)
-		if status == manager.SEARCH_WORD_FAIL {
+		if status == manager.WORD_IS_NOT_EXIST {
 			c.JSON(404, result)
 			return
 		}
@@ -60,9 +60,6 @@ func (this *WordsHandler) AllWordsList(c *gin.Context) {
 	result := service.AllWordsList()
 	var wordList []*form.WordForm
 	wordList = result
-
-	//fmt.Println(wordList)
-
 	c.JSON(200, wordList)
 	return
 }
@@ -80,15 +77,7 @@ func (this *WordsHandler) AddWord(c *gin.Context) {
 
 	var Word = c.Request.Form.Get("word")
 	var Translation = c.Request.Form.Get("translation")
-	//data,err := ioutil.ReadAll(c.Request.Body)
-	//if err != nil{
-	//	return
-	//}
-	//var m *form.WordForm
-	//err = json.Unmarshal(data,&m)
-	//if err != nil{
-	//	fmt.Println(err)
-	//}
+
 	result := service.AddWord(Word, Translation)
 
 	if result == manager.ADD_WORD_SUCCESS {
@@ -98,9 +87,6 @@ func (this *WordsHandler) AddWord(c *gin.Context) {
 		c.JSON(404, "单词已经存在")
 		return
 	}
-
-
-
 
 
 }

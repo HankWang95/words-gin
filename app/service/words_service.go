@@ -12,10 +12,18 @@ func SearchWords4Uid(uid int64) (result *form.WordForm, status int) {
 
 func SearchWord4Word(word string) (result *form.WordForm, status int){
 	result, status = manager.SearchWord4Word(word)
+	if status == manager.WORD_IS_NOT_EXIST || result == nil {
+		status = AddWord(word, "等待翻译api接入")
+
+	}
 	return
 }
 
 
+//翻译api接口方法
+//func TranslateWord(word string) *model.Translation {
+//
+//}
 
 func AddWord(Word, Translation string) int {
 	status := manager.AddWord(Word, Translation)
