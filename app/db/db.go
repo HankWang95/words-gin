@@ -1,10 +1,10 @@
 package db
 
 import (
+	"database/sql"
 	"fmt"
 	_ "github.com/Go-SQL-Driver/MySQL"
 	"github.com/smartwalle/dbs"
-	"database/sql"
 )
 
 var db = NewDBLink()

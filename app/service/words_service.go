@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/HankWang95/words-gin/app/manager"
 	"github.com/HankWang95/words-gin/app/form"
+	"github.com/HankWang95/words-gin/app/manager"
 )
 
 func SearchWords4Uid(uid int64) (result *form.WordForm, status int) {
@@ -10,7 +10,7 @@ func SearchWords4Uid(uid int64) (result *form.WordForm, status int) {
 	return
 }
 
-func SearchWord4Word(word string) (result *form.WordForm, status int){
+func SearchWord4Word(word string) (result *form.WordForm, status int) {
 	result, status = manager.SearchWord4Word(word)
 	if status == manager.WORD_IS_NOT_EXIST || result == nil {
 		status = AddWord(word, "等待翻译api接入")
@@ -18,7 +18,6 @@ func SearchWord4Word(word string) (result *form.WordForm, status int){
 	}
 	return
 }
-
 
 //翻译api接口方法
 //func TranslateWord(word string) *model.Translation {
@@ -35,14 +34,11 @@ func AllWordsList() (result []*form.WordForm) {
 	return
 }
 
-
 func CreateWordsList() (result []*form.WordForm) {
 	result, _ = manager.CreateWordsList()
 	return
 }
 
-func SetRedisWord(word string ) error {
+func SetRedisWord(word string) error {
 	return manager.SetRedisWord(word)
 }
-
-

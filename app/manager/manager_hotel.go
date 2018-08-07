@@ -1,10 +1,10 @@
 package manager
 
 import (
+	"fmt"
+	"github.com/HankWang95/words-gin/app/db"
 	"github.com/HankWang95/words-gin/app/form"
 	"github.com/smartwalle/dbs"
-	"github.com/HankWang95/words-gin/app/db"
-	"fmt"
 )
 
 func SearchHotelUser() ([]*form.HotelUserForm, error) {
@@ -20,10 +20,10 @@ func SearchHotelUser() ([]*form.HotelUserForm, error) {
 	sb.LeftJoin("user_user", "AS u ON u.id = h.user_id")
 	sb.LeftJoin("hotel_hotel", "AS h_h ON h_h.owner_id = h.user_id")
 	fmt.Println(sb.ToSQL())
-	if err := sb.ScanTx(tx, &res); err !=nil{
+	if err := sb.ScanTx(tx, &res); err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
 
-	return res,nil
+	return res, nil
 }

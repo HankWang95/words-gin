@@ -1,12 +1,12 @@
 package api
 
 import (
+	"fmt"
+	"github.com/HankWang95/words-gin/app/form"
 	"github.com/HankWang95/words-gin/app/manager"
 	"github.com/HankWang95/words-gin/app/service"
 	"github.com/gin-gonic/gin"
 	"github.com/smartwalle/conv4go"
-	"github.com/HankWang95/words-gin/app/form"
-	"fmt"
 )
 
 type WordsHandler struct {
@@ -30,7 +30,7 @@ func (this *WordsHandler) SearchWord(c *gin.Context) {
 	c.Request.ParseForm()
 
 	word, uid := c.Request.Form.Get("word"), c.Request.Form.Get("uid")
-	fmt.Println(word,uid)
+	fmt.Println(word, uid)
 	if uid != "" {
 		uid := conv4go.Int64(uid)
 		result, status := service.SearchWords4Uid(uid)
@@ -40,7 +40,7 @@ func (this *WordsHandler) SearchWord(c *gin.Context) {
 		}
 		c.JSON(200, result)
 		return
-	}else if word != "" {
+	} else if word != "" {
 		result, status := service.SearchWord4Word(word)
 		if status == manager.WORD_IS_NOT_EXIST {
 			c.JSON(404, result)
@@ -48,11 +48,10 @@ func (this *WordsHandler) SearchWord(c *gin.Context) {
 		}
 		c.JSON(200, result)
 		return
-	}else {
-		c.JSON(404, "请输入查找内容" )
+	} else {
+		c.JSON(404, "请输入查找内容")
 		return
 	}
-
 
 }
 
@@ -64,12 +63,11 @@ func (this *WordsHandler) AllWordsList(c *gin.Context) {
 	return
 }
 
-func (this *WordsHandler) CreateWordsList(c *gin.Context)  {
+func (this *WordsHandler) CreateWordsList(c *gin.Context) {
 	result := service.CreateWordsList()
-	c.JSON(200,result)
+	c.JSON(200, result)
 	return
 }
-
 
 func (this *WordsHandler) AddWord(c *gin.Context) {
 
@@ -88,10 +86,9 @@ func (this *WordsHandler) AddWord(c *gin.Context) {
 		return
 	}
 
-
 }
 
-func (this *WordsHandler) SetRedisWord(c *gin.Context)  {
+func (this *WordsHandler) SetRedisWord(c *gin.Context) {
 	c.Request.ParseForm()
 
 	word := c.Request.Form.Get("word")
@@ -102,6 +99,5 @@ func (this *WordsHandler) SetRedisWord(c *gin.Context)  {
 		return
 	}
 	c.JSON(200, "set redis word ok!")
-
 
 }
