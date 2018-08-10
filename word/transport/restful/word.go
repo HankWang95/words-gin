@@ -16,11 +16,21 @@ func NewWordHandler(wServ word.WordService) *WordHandler {
 }
 
 func (this *WordHandler) Run(r gin.IRouter) {
-	r.GET("/search", this.SearchWord)
+	r.GET("/search/chinese", this.SearchWordWithChinese)
+	r.GET("/search/english", this.SearchWordWithEnglish)
 }
 
-func (this *WordHandler) SearchWord(c *gin.Context) {
-	var word, err = this.WordServer.SearchWord(c.Request.FormValue("word"))
+func (this *WordHandler) SearchWordWithChinese(c *gin.Context) {
+	var word, err = this.WordServer.SearchWordWithChinese(c.Request.FormValue("word"))
+	if err != nil {
+		c.JSON(200, err)
+		return
+	}
+	c.JSON(200, word)
+}
+
+func (this *WordHandler) SearchWordWithEnglish(c *gin.Context) {
+	var word, err = this.WordServer.SearchWordWithEnglish(c.Request.FormValue("word"))
 	if err != nil {
 		c.JSON(200, err)
 		return

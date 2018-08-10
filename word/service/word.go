@@ -11,9 +11,9 @@ var (
 )
 
 type WordRepository interface {
-	SearchWord4English(s string) (*word.Word, error)
-	SearchWord4Chinese(s string) (*word.Word, error)
-	SearchWord4Id(s int) (*word.Word, error)
+	SearchWordWithEnglish(s string) (*word.Word, error)
+	SearchWordWithChinese(s string) (*word.Word, error)
+	AddWord(word *word.Word) error
 }
 
 type wordServeice struct {
@@ -24,17 +24,33 @@ func NewWordService(repo WordRepository) word.WordService {
 	return &wordServeice{repo: repo}
 }
 
-func (this *wordServeice) SearchWord(s interface{}) (*word.Word, error) {
-	switch s.(type) {
-	case string:
-		return this.repo.SearchWord4English(s.(string))
-
-	case word.Chinese:
-		return this.repo.SearchWord4Chinese(s.(string))
-
-	case int:
-		return this.repo.SearchWord4Id(s.(int))
-	default:
-		return nil, TypeInvalid
+func (this *wordServeice) SearchWordWithEnglish(word string) (result *word.Word, err error) {
+	result, err = this.repo.SearchWordWithEnglish(word)
+	if result == nil {
+		newWord, err := searchWordFromYouDao(word)
+		if err != nil {
+			return nil, err
+		}
+		if newWord != nil {
+			err = addWord(newWord)
+			if err != nil {
+				return
+			}
+		}
 	}
+	return
+}
+
+func (this *wordServeice) SearchWordWithChinese(word string) (*word.Word, error) {
+	return this.repo.SearchWordWithChinese(word)
+}
+
+func addWord(word *word.Word) error {
+	// todo add
+	return nil
+}
+
+func searchWordFromYouDao(word string) (result *word.Word, err error) {
+	// todo: youdao API
+	return
 }

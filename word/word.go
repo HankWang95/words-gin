@@ -6,9 +6,7 @@ type Word struct {
 	Chinese string `json:"chinese" sql:"chinese"`
 }
 
-type English string
-type Chinese string
-
 type WordService interface {
-	SearchWord(s interface{}) (*Word, error)
+	SearchWordWithChinese(word string) (*Word, error)
+	SearchWordWithEnglish(word string) (*Word, error)
 }

@@ -18,7 +18,7 @@ func NewWordRepository(db dbs.DB) service.WordRepository {
 	return &wordRepository{db: db}
 }
 
-func (this *wordRepository) SearchWord4English(s string) (result *word.Word, err error) {
+func (this *wordRepository) SearchWordWithEnglish(s string) (result *word.Word, err error) {
 	var sb = dbs.NewSelectBuilder()
 	sb.Selects("w.id", "w.english", "w.chinese")
 	sb.From(k_DB_WORD, "AS w")
@@ -29,7 +29,7 @@ func (this *wordRepository) SearchWord4English(s string) (result *word.Word, err
 	}
 	return result, nil
 }
-func (this *wordRepository) SearchWord4Chinese(s string) (result *word.Word, err error) {
+func (this *wordRepository) SearchWordWithChinese(s string) (result *word.Word, err error) {
 	var sb = dbs.NewSelectBuilder()
 	sb.Selects("w.id", "w.english", "w.chinese")
 	sb.From(k_DB_WORD, "AS w")
@@ -40,7 +40,7 @@ func (this *wordRepository) SearchWord4Chinese(s string) (result *word.Word, err
 	}
 	return result, nil
 }
-func (this *wordRepository) SearchWord4Id(s int) (result *word.Word, err error) {
+func (this *wordRepository) SearchWordWithId(s int) (result *word.Word, err error) {
 	var sb = dbs.NewSelectBuilder()
 	sb.Selects("w.id", "w.english", "w.chinese")
 	sb.From(k_DB_WORD, "AS w")
@@ -51,4 +51,8 @@ func (this *wordRepository) SearchWord4Id(s int) (result *word.Word, err error) 
 	}
 	return result, nil
 
+}
+
+func (this *wordRepository) AddWord(word *word.Word) error {
+	return nil
 }
