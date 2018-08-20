@@ -46,7 +46,7 @@ func (this *wordServeice) SearchWordWithChinese(word string) (*word.Word, error)
 }
 
 func addWord(word *word.Word) error {
-	// todo add
+
 	return nil
 }
 

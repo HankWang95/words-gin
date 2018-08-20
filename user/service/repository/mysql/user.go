@@ -14,6 +14,8 @@ type userRepository struct {
 	db dbs.DB
 }
 
+
+
 func NewUserRepository(db dbs.DB) service.UserRepository {
 	return &userRepository{db: db}
 }
